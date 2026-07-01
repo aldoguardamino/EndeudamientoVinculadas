@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saneamiento Patrimonial · Grupo Akamai by Paladin</title>
+<style>
+/* ── TOKENS ──────────────────────────────────────────────────────── */
+:root {
+  --ink:       #1a1a18;
+  --ink2:      #4a4a46;
+  --ink3:      #8a8a84;
+  --surface:   #f7f6f2;
+  --white:     #ffffff;
+  --rule:      #e2e0d8;
+
+  --navy:      #1b2d45;
+  --navy2:     #253d5e;
+  --navy3:     #d6e4f5;
+  --navy-txt:  #0c1e30;
+
+  --teal:      #0f6e56;
+  --teal2:     #e1f5ee;
+  --teal3:     #9fe1cb;
+
+  --amber:     #854f0b;
+  --amber2:    #faeeda;
+  --amber3:    #fac775;
+
+  --red:       #a32d2d;
+  --red2:      #fcebeb;
+  --red3:      #f09595;
+
+  --coral:     #993c1d;
+  --coral2:    #faece7;
+  --coral3:    #f0997b;
+
+  --purple:    #534ab7;
+  --purple2:   #eeedfe;
+  --purple3:   #afa9ec;
+
+  --green:     #3b6d11;
+  --green2:    #eaf3de;
+  --green3:    #97c459;
+
+  --radius:    10px;
+  --radius-lg: 16px;
+  --shadow:    0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+}
+
+/* ── RESET ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────────── */
+.shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: 56px 1fr;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ──────────────────────────────────────────────────────── */
+.topbar {
+  grid-column: 1 / -1;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-logo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1;
+}
+.topbar-logo span { color: var(--teal3); }
+.topbar-divider { width: 1px; height: 20px; background: rgba(255,255,255,.15); }
+.topbar-sub { font-size: 12px; color: rgba(255,255,255,.5); }
+.topbar-badge {
+  margin-left: auto;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .03em;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────────── */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--rule);
+  padding: 20px 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+.nav-section {
+  padding: 0 16px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 16px;
+}
+.nav-section:first-child { margin-top: 0; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  font-size: 13px;
+  color: var(--ink2);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all .15s;
+  user-select: none;
+}
+.nav-item:hover { background: var(--surface); color: var(--ink); }
+.nav-item.active {
+  background: var(--navy3);
+  color: var(--navy-txt);
+  border-left-color: var(--navy);
+  font-weight: 600;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-navy  { background: var(--navy); }
+.dot-teal  { background: var(--teal); }
+.dot-amber { background: var(--amber3); }
+.dot-red   { background: var(--red); }
+.dot-purple{ background: var(--purple); }
+
+/* ── MAIN ────────────────────────────────────────────────────────── */
+.main {
+  padding: 32px 36px;
+  overflow-y: auto;
+}
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── PAGE HEADER ─────────────────────────────────────────────────── */
+.page-header { margin-bottom: 28px; }
+.page-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 6px;
+}
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.page-sub { font-size: 13px; color: var(--ink2); margin-top: 4px; }
+
+/* ── CARDS ───────────────────────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title .icon {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+/* ── STAT ROW ────────────────────────────────────────────────────── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.stat-label { font-size: 11px; color: var(--ink3); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.stat-value { font-size: 22px; font-weight: 800; line-height: 1; }
+.stat-sub { font-size: 11px; color: var(--ink3); margin-top: 4px; }
+.c-red    { color: var(--red); }
+.c-amber  { color: var(--amber); }
+.c-green  { color: var(--teal); }
+.c-navy   { color: var(--navy); }
+.c-purple { color: var(--purple); }
+
+/* ── BADGE ───────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+}
+.badge-green  { background: var(--green2); color: var(--green); }
+.badge-amber  { background: var(--amber2); color: var(--amber); }
+.badge-red    { background: var(--red2);   color: var(--red); }
+.badge-teal   { background: var(--teal2);  color: var(--teal); }
+.badge-navy   { background: var(--navy3);  color: var(--navy-txt); }
+.badge-purple { background: var(--purple2);color: var(--purple); }
+.badge-coral  { background: var(--coral2); color: var(--coral); }
+
+/* ── TABLE ───────────────────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  text-align: left; padding: 10px 12px;
+  background: var(--surface);
+  color: var(--ink3);
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+tbody td { padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--surface); }
+.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+.total-row td { background: var(--surface); font-weight: 700; border-top: 1px solid var(--rule); }
+.muted { color: var(--ink3); font-size: 12px; }
+
+/* ── ORG CHART ───────────────────────────────────────────────────── */
+.org-wrap {
+  overflow-x: auto;
+  padding: 8px 0;
+}
+.org {
+  min-width: 780px;
+  padding: 20px;
+  font-size: 12px;
+}
+.org-level { display: flex; justify-content: center; gap: 12px; margin-bottom: 0; position: relative; }
+.org-node {
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  min-width: 140px;
+  max-width: 180px;
+  position: relative;
+  border: 1.5px solid;
+}
+.org-node .node-sub { font-weight: 400; font-size: 10px; margin-top: 2px; opacity: .75; }
+.org-node.usa   { background: var(--navy3);  border-color: var(--navy);  color: var(--navy-txt); }
+.org-node.mid   { background: var(--teal2);  border-color: var(--teal);  color: var(--teal); }
+.org-node.plat  { background: var(--purple2);border-color: var(--purple);color: var(--purple); }
+.org-node.hold  { background: var(--coral2); border-color: var(--coral); color: var(--coral); }
+.org-node.sub   { background: var(--amber2); border-color: var(--amber3);color: var(--amber); }
+.org-connector { text-align: center; height: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.org-connector .pct { font-size: 10px; color: var(--ink3); font-weight: 600; background: var(--white); border: 1px solid var(--rule); border-radius: 4px; padding: 1px 5px; margin: 2px 0; }
+.connector-v { width: 1px; height: 100%; background: var(--rule); }
+.org-bridge {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 28px;
+}
+.org-bridge::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 50%;
+  width: 60%; left: 20%;
+  border: 1px solid var(--rule);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+.org-gap { height: 8px; }
+.org-row { display: flex; gap: 12px; align-items: flex-start; }
+.org-col { display: flex; flex-direction: column; align-items: center; }
+.org-line-v { width: 1.5px; min-height: 20px; background: var(--rule); }
+.org-line-pct { font-size: 10px; font-weight: 600; color: var(--ink3); white-space: nowrap; background: var(--white); border: 1px solid var(--rule); border-radius: 4px; padding: 1px 5px; margin: 2px; }
+
+/* ── ETAPAS ──────────────────────────────────────────────────────── */
+.etapas-flow { display: flex; flex-direction: column; gap: 0; }
+.etapa-block {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+}
+.etapa-spine { display: flex; flex-direction: column; align-items: center; }
+.etapa-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800;
+  flex-shrink: 0;
+}
+.etapa-circle.e1 { background: var(--teal2);  color: var(--teal); }
+.etapa-circle.e2 { background: var(--amber2); color: var(--amber); }
+.etapa-circle.e3 { background: var(--purple2);color: var(--purple); }
+.etapa-vline { flex: 1; width: 2px; background: var(--rule); margin: 8px auto; min-height: 24px; }
+.etapa-body { padding-bottom: 28px; }
+.etapa-tag { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink3); margin-bottom: 4px; }
+.etapa-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.etapa-desc { font-size: 12px; color: var(--ink2); line-height: 1.6; margin-bottom: 12px; }
+.etapa-ops { display: flex; flex-direction: column; gap: 6px; }
+.etapa-op {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+.etapa-op .arrow { color: var(--ink3); font-size: 14px; }
+.etapa-op .empresa { font-weight: 600; }
+.etapa-op .amount { margin-left: auto; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.etapa-op .amount.pos { color: var(--teal); }
+.etapa-op .amount.neg { color: var(--red); }
+
+/* ── IMPACT TABLE ─────────────────────────────────────────────────── */
+.impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.impact-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.impact-head {
+  padding: 10px 14px;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+}
+.impact-head.teal   { background: var(--teal2);  color: var(--teal); }
+.impact-head.amber  { background: var(--amber2); color: var(--amber); }
+.impact-head.coral  { background: var(--coral2); color: var(--coral); }
+.impact-head.purple { background: var(--purple2);color: var(--purple); }
+.impact-rows { font-size: 12px; }
+.impact-row { display: flex; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid var(--rule); }
+.impact-row:last-child { border-bottom: none; }
+.impact-row .label { color: var(--ink2); }
+.impact-row .vals { display: flex; gap: 16px; text-align: right; }
+.impact-row .val-before { color: var(--ink3); font-variant-numeric: tabular-nums; }
+.impact-row .val-after  { font-weight: 600; font-variant-numeric: tabular-nums; }
+.impact-row .val-after.pos { color: var(--teal); }
+.impact-row .val-after.neg { color: var(--red); }
+.col-heads { display: flex; justify-content: flex-end; gap: 16px; padding: 4px 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink3); }
+
+/* ── RISK ────────────────────────────────────────────────────────── */
+.risk-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.risk-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.risk-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.risk-level {
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  white-space: nowrap; margin-top: 2px;
+}
+.risk-level.alto   { background: var(--red2);    color: var(--red); }
+.risk-level.medio  { background: var(--amber2);  color: var(--amber); }
+.risk-level.bajo   { background: var(--green2);  color: var(--green); }
+.risk-title { font-size: 13px; font-weight: 700; }
+.risk-body { font-size: 12px; color: var(--ink2); line-height: 1.6; }
+.risk-body strong { font-weight: 600; color: var(--ink); }
+.risk-footer { margin-top: 10px; font-size: 11px; padding: 8px 10px; border-radius: 6px; }
+.risk-footer.red    { background: var(--red2);    color: var(--red); }
+.risk-footer.amber  { background: var(--amber2);  color: var(--amber); }
+.risk-footer.green  { background: var(--green2);  color: var(--green); }
+
+/* ── WARN BOX ────────────────────────────────────────────────────── */
+.warn-box {
+  border: 1px solid var(--coral3);
+  background: var(--coral2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--coral);
+  line-height: 1.6;
+  margin-top: 14px;
+}
+.warn-box strong { font-weight: 700; }
+
+/* ── SCORECARD FINAL ─────────────────────────────────────────────── */
+.sc-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+.sc-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  background: var(--white);
+}
+.sc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink3); margin-bottom: 6px; }
+.sc-val { font-size: 20px; font-weight: 800; line-height: 1; }
+.sc-note { font-size: 11px; color: var(--ink3); margin-top: 4px; }
+
+/* ── SECTION DIVIDER ─────────────────────────────────────────────── */
+.section-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 24px 0 16px;
+}
+.section-divider .sd-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink3); white-space: nowrap;
+}
+.section-divider::before, .section-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; grid-template-rows: 56px auto 1fr; }
+  .sidebar { position: static; height: auto; display: flex; flex-wrap: wrap; padding: 8px; gap: 4px; border-right: none; border-bottom: 1px solid var(--rule); }
+  .nav-section { display: none; }
+  .nav-item { border-left: none; border-radius: 6px; padding: 6px 10px; }
+  .main { padding: 20px 16px; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .risk-matrix { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .sc-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-logo">Akamai <span>by Paladin</span></div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-sub">Saneamiento Patrimonial · Reorganización Financiera Estratégica</div>
+  <div class="topbar-badge">⚠ Art. 26 LIR activo</div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="nav-section">Análisis</div>
+  <div class="nav-item active" onclick="showPanel('situacion')">
+    <span class="nav-dot dot-navy"></span> Situación actual
+  </div>
+  <div class="nav-item" onclick="showPanel('organigrama')">
+    <span class="nav-dot dot-navy"></span> Estructura societaria
+  </div>
+  <div class="nav-item" onclick="showPanel('deuda')">
+    <span class="nav-dot dot-amber"></span> Deudas entre vinculadas
+  </div>
+  <div class="nav-section">Plan de la contadora</div>
+  <div class="nav-item" onclick="showPanel('etapas')">
+    <span class="nav-dot dot-teal"></span> Etapas del plan
+  </div>
+  <div class="nav-item" onclick="showPanel('impacto')">
+    <span class="nav-dot dot-teal"></span> Impacto patrimonial
+  </div>
+  <div class="nav-section">Gestión de riesgos</div>
+  <div class="nav-item" onclick="showPanel('riesgos')">
+    <span class="nav-dot dot-red"></span> Riesgos y alertas
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PANEL 1 · SITUACIÓN ACTUAL
+══════════════════════════════════════════════════════════════════ -->
+<section id="p-situacion" class="panel active">
+  <div class="page-header">
+    <div class="page-eyebrow">Panel 1 · Diagnóstico</div>
+    <div class="page-title">Situación actual de la deuda</div>
+    <div class="page-sub">Estado al inicio del proceso de reorganización · todas las operaciones se encuentran en fase de análisis</div>
+  </div>
+
+  <!-- BLOQUE OBJETIVO -->
+  <div style="background:var(--navy);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:16px;color:#fff;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;">Objetivo del proceso</div>
+    <div style="font-size:15px;font-weight:600;line-height:1.5;margin-bottom:12px;">
+      Eliminar los saldos de deuda existentes entre las empresas vinculadas del Grupo Akamai by Paladin, convirtiendo esas obligaciones en capital, para dejar de pagar impuestos sobre intereses que nunca se cobraron.
+    </div>
+    <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:16px;">
+      Las empresas del grupo se han prestado dinero entre sí a lo largo del tiempo. Aunque estos préstamos nunca generaron intereses reales, la Ley del Impuesto a la Renta peruana (Art. 26 LIR) <strong style="color:#fff;">presume</strong> que toda deuda entre empresas vinculadas sí los genera, y obliga a tributar sobre esos intereses ficticios. La solución es <strong style="color:#fff;">capitalizar</strong> esas deudas: en lugar de devolverlas en efectivo, se convierten en aporte de capital. La deuda desaparece del balance y con ella desaparece la base del impuesto presunto.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:4px;">Problema</div>
+        <div style="font-size:13px;font-weight:600;">S/ 32.8 MM en deudas entre vinculadas generando IR sobre intereses presuntos</div>
+      </div>
+      <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:4px;">Solución propuesta</div>
+        <div style="font-size:13px;font-weight:600;">Capitalización progresiva en 3 etapas según complejidad de la relación societaria</div>
+      </div>
+      <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:4px;">Estado actual</div>
+        <div style="font-size:13px;font-weight:600;">En análisis · ninguna operación ejecutada aún · plan elaborado por contadora</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEYENDA DE ETAPAS -->
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;background:var(--white);">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:12px;">Qué significa cada etapa en la tabla</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <span class="badge badge-teal" style="margin-top:1px;flex-shrink:0;">Etapa I</span>
+        <div style="color:var(--ink2);line-height:1.5;"><strong style="color:var(--ink);">Plataformas → subsidiarias directas.</strong> Las deudas más simples: el acreedor es el accionista mayoritario directo del deudor (99.9–99.999%). La capitalización es directa y sin intermediarios.</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <span class="badge badge-amber" style="margin-top:1px;flex-shrink:0;">Etapa II</span>
+        <div style="color:var(--ink2);line-height:1.5;"><strong style="color:var(--ink);">Entre subsidiarias de la misma plataforma.</strong> Deudas entre empresas hermanas bajo el mismo holding. Requiere una devolución de capital con instrucción de reinversión. Complejidad media.</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <span class="badge badge-purple" style="margin-top:1px;flex-shrink:0;">Etapa III</span>
+        <div style="color:var(--ink2);line-height:1.5;"><strong style="color:var(--ink);">Entre subsidiarias de distintas plataformas.</strong> Las más complejas: el único nexo entre acreedor y deudor es Akamai con 0.1%. Requiere confirmar el mecanismo (cesión de crédito o capitalización directa).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Deuda total entre vinculadas</div>
+      <div class="stat-value c-red">S/ 32.8 MM</div>
+      <div class="stat-sub">8 relaciones de deuda activas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Mayor acreedora del grupo</div>
+      <div class="stat-value c-amber" style="font-size:16px;">Emblema Tres SAC</div>
+      <div class="stat-sub">Le deben S/ 23.2 MM en total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Mayor deudora del grupo</div>
+      <div class="stat-value c-red" style="font-size:16px;">La Pacífica SAC</div>
+      <div class="stat-sub">Debe S/ 20.2 MM en total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Exposición Art. 26 LIR</div>
+      <div class="stat-value c-red">S/ 32.8 MM</div>
+      <div class="stat-sub">Total expuesto hoy · sin acciones aún</div>
+    </div>
+  </div>
+
+  <!-- Resumen por deudor -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title" style="margin-bottom:10px;"><span class="icon" style="background:var(--red2)">📤</span>Quién debe más (empresas deudoras)</div>
+      <table class="tbl" style="font-size:12px;">
+        <thead><tr><th>Empresa deudora</th><th class="num">Total adeudado S/</th><th class="num">% del total</th></tr></thead>
+        <tbody>
+          <tr><td><strong>La Pacífica SAC</strong></td><td class="num">20,245,689</td><td class="num">61.8%</td></tr>
+          <tr><td><strong>Emplepac SRL</strong></td><td class="num">7,376,240</td><td class="num">22.5%</td></tr>
+          <tr><td><strong>PC Costanera SRL</strong></td><td class="num">4,989,329</td><td class="num">15.2%</td></tr>
+          <tr><td><strong>Akamai SAC</strong></td><td class="num">155,505</td><td class="num">0.5%</td></tr>
+          <tr class="total-row"><td>Total</td><td class="num">32,766,763</td><td class="num">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-title" style="margin-bottom:10px;"><span class="icon" style="background:var(--teal2)">📥</span>Quién presta más (empresas acreedoras)</div>
+      <table class="tbl" style="font-size:12px;">
+        <thead><tr><th>Empresa acreedora</th><th class="num">Total prestado S/</th><th class="num">% del total</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Emblema Tres SAC</strong></td><td class="num">23,249,143</td><td class="num">70.9%</td></tr>
+          <tr><td><strong>Emplepac SRL</strong></td><td class="num">6,783,529</td><td class="num">20.7%</td></tr>
+          <tr><td><strong>PC Costanera SRL</strong></td><td class="num">1,355,921</td><td class="num">4.1%</td></tr>
+          <tr><td><strong>Vivienda PCII SRL</strong></td><td class="num">1,025,889</td><td class="num">3.1%</td></tr>
+          <tr><td><strong>La Pacífica SAC</strong></td><td class="num">352,281</td><td class="num">1.1%</td></tr>
+          <tr class="total-row"><td>Total</td><td class="num">32,766,763</td><td class="num">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:var(--amber2)">📋</span>
+      Mapa completo de deudas entre vinculadas
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Empresa acreedora</th>
+            <th>Empresa deudora</th>
+            <th>Relación entre empresas</th>
+            <th class="num">Monto S/</th>
+            <th>Etapa propuesta</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="muted">1</td>
+            <td><strong>Emblema Tres SAC</strong></td>
+            <td>Akamai SAC</td>
+            <td class="muted">Subsidiaria → gestora del grupo</td>
+            <td class="num">155,505</td>
+            <td><span class="badge badge-purple">Etapa III</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">2</td>
+            <td><strong>Emblema Tres SAC</strong></td>
+            <td>Emplepac SRL</td>
+            <td class="muted">Subsidiaria → su propio accionista (99%)</td>
+            <td class="num">7,023,959</td>
+            <td><span class="badge badge-teal">Etapa I</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">3</td>
+            <td><strong>La Pacífica SAC</strong></td>
+            <td>Emplepac SRL</td>
+            <td class="muted">Subsidiaria → su propio accionista (99%)</td>
+            <td class="num">352,281</td>
+            <td><span class="badge badge-teal">Etapa I</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">4</td>
+            <td><strong>Vivienda PCII SRL</strong></td>
+            <td>PC Costanera SRL</td>
+            <td class="muted">Accionista 99% → subsidiaria directa</td>
+            <td class="num">1,025,889</td>
+            <td><span class="badge badge-teal">Etapa I</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">5</td>
+            <td><strong>Emblema Tres SAC</strong></td>
+            <td>La Pacífica SAC</td>
+            <td class="muted">Empresas hermanas bajo Emplepac (99%)</td>
+            <td class="num">12,106,239</td>
+            <td><span class="badge badge-amber">Etapa II</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">6</td>
+            <td><strong>Emplepac SRL</strong></td>
+            <td>La Pacífica SAC</td>
+            <td class="muted">Accionista 99% → subsidiaria directa</td>
+            <td class="num">6,783,529</td>
+            <td><span class="badge badge-amber">Etapa II</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">7</td>
+            <td><strong>PC Costanera SRL</strong></td>
+            <td>La Pacífica SAC</td>
+            <td class="muted">Distintas plataformas · nexo Akamai 0.1%</td>
+            <td class="num">1,355,921</td>
+            <td><span class="badge badge-purple">Etapa III</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">8</td>
+            <td><strong>Emblema Tres SAC</strong></td>
+            <td>PC Costanera SRL</td>
+            <td class="muted">Distintas plataformas · nexo Akamai 0.1%</td>
+            <td class="num">3,963,440</td>
+            <td><span class="badge badge-purple">Etapa III</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="4"><strong>Total deuda entre vinculadas</strong></td>
+            <td class="num"><strong>32,766,763</strong></td>
+            <td colspan="2"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn-box" style="margin-top:16px;">
+      <strong>Art. 26 LIR — Presunción de intereses:</strong> SUNAT presume que toda deuda entre empresas vinculadas genera interés a la tasa activa de mercado, aunque no se haya pactado expresamente. Esto obliga al grupo a pagar impuesto a la renta sobre intereses que nunca se recibieron. La capitalización convierte estas deudas en capital aportado, eliminando la base presunta desde la fecha del acuerdo.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PANEL 2 · ORGANIGRAMA
+══════════════════════════════════════════════════════════════════ -->
+<section id="p-organigrama" class="panel">
+  <div class="page-header">
+    <div class="page-eyebrow">Panel 2 · Estructura</div>
+    <div class="page-title">Estructura societaria</div>
+    <div class="page-sub">Cadena de propiedad desde Paladin (Delaware) hasta las subsidiarias operativas en Perú</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:var(--navy3)">🏗</span>
+      Organigrama del grupo · dos plataformas de inversión
+    </div>
+    <div class="org-wrap">
+      <div class="org">
+
+        <!-- Leyenda -->
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-bottom:16px;flex-wrap:wrap;">
+          <span class="badge badge-navy">EE.UU. · Delaware</span>
+          <span class="badge badge-teal">Akamai · Gestora Perú</span>
+          <span class="badge" style="background:var(--purple2);color:var(--purple)">Plataformas JV</span>
+          <span class="badge badge-coral">Holdings operativos</span>
+          <span class="badge badge-amber">Subsidiarias proyecto</span>
+        </div>
+
+        <!-- Nivel 1: Paladin -->
+        <div style="display:flex;justify-content:center;margin-bottom:0;">
+          <div class="org-node usa" style="min-width:260px;">
+            Paladin Realty Partners, LLC
+            <div class="org-node sub" style="display:none"></div>
+            <div class="node-sub">Delaware Limited Partnership · Matriz global</div>
+          </div>
+        </div>
+
+        <!-- Conector Paladin → Akamai -->
+        <div style="display:flex;justify-content:center;height:36px;align-items:center;flex-direction:column;">
+          <div style="width:1.5px;height:12px;background:var(--rule);"></div>
+          <span style="font-size:10px;font-weight:700;color:var(--ink3);background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:1px 6px;">99.9%</span>
+          <div style="width:1.5px;height:12px;background:var(--rule);"></div>
+        </div>
+
+        <!-- Nivel 2: Akamai -->
+        <div style="display:flex;justify-content:center;margin-bottom:0;">
+          <div class="org-node mid" style="min-width:220px;">
+            Akamai SAC
+            <div class="node-sub">Gestora inmobiliaria · 0.1% Noel Granados</div>
+          </div>
+        </div>
+
+        <!-- Bifurcación Akamai → dos ramas -->
+        <div style="height:32px;position:relative;display:flex;justify-content:center;">
+          <div style="position:absolute;top:0;width:1.5px;height:16px;background:var(--rule);left:50%;transform:translateX(-50%);"></div>
+          <div style="position:absolute;top:16px;width:52%;height:1.5px;background:var(--rule);left:24%;"></div>
+          <div style="position:absolute;top:16px;width:1.5px;height:16px;background:var(--rule);left:24%;"></div>
+          <div style="position:absolute;top:16px;width:1.5px;height:16px;background:var(--rule);right:24%;"></div>
+        </div>
+
+        <!-- Nivel 3: Dos plataformas JV (USA) -->
+        <div style="display:flex;gap:24px;justify-content:center;margin-bottom:0;">
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:300px;">
+            <div class="org-node plat" style="width:100%;">
+              Paladin Palardo Investors (Peru), LLC
+              <div class="node-sub">Delaware LLC · Plataforma Palardo</div>
+            </div>
+            <div style="display:flex;align-items:center;flex-direction:column;height:36px;">
+              <div style="width:1.5px;height:10px;background:var(--rule);"></div>
+              <span style="font-size:10px;font-weight:700;color:var(--ink3);background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:1px 6px;">99.9%</span>
+              <div style="width:1.5px;height:10px;background:var(--rule);"></div>
+            </div>
+            <!-- Holding Emplepac -->
+            <div class="org-node hold" style="width:100%;">
+              Emplepac S.R.L.
+              <div class="node-sub">Holding operativo Perú</div>
+            </div>
+            <!-- Bifurcación Emplepac → 2 subsidiarias -->
+            <div style="height:28px;position:relative;width:100%;display:flex;justify-content:center;">
+              <div style="position:absolute;top:0;width:1.5px;height:12px;background:var(--rule);left:50%;transform:translateX(-50%);"></div>
+              <div style="position:absolute;top:12px;width:56%;height:1.5px;background:var(--rule);left:22%;"></div>
+              <div style="position:absolute;top:12px;width:1.5px;height:16px;background:var(--rule);left:22%;"></div>
+              <div style="position:absolute;top:12px;width:1.5px;height:16px;background:var(--rule);right:22%;"></div>
+            </div>
+            <div style="display:flex;gap:8px;width:100%;">
+              <div class="org-node sub" style="flex:1;font-size:11px;">
+                Emblema Tres SAC
+                <div class="node-sub">aka Amazonas · Simplicity · Homie</div>
+              </div>
+              <div class="org-node sub" style="flex:1;font-size:11px;">
+                La Pacífica SAC
+                <div class="node-sub">aka Olguín</div>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:4px;font-size:10px;color:var(--ink3);">99.999% c/u · 0.1% Akamai</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:300px;">
+            <div class="org-node plat" style="width:100%;">
+              Paladin Vivienda PC II Investors (Peru), LLC
+              <div class="node-sub">Delaware LLC · Plataforma Vivienda PCII</div>
+            </div>
+            <div style="display:flex;align-items:center;flex-direction:column;height:36px;">
+              <div style="width:1.5px;height:10px;background:var(--rule);"></div>
+              <span style="font-size:10px;font-weight:700;color:var(--ink3);background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:1px 6px;">99.9%</span>
+              <div style="width:1.5px;height:10px;background:var(--rule);"></div>
+            </div>
+            <!-- Holding Vivienda PCII -->
+            <div class="org-node hold" style="width:100%;">
+              Vivienda PC II, SRL
+              <div class="node-sub">Holding operativo Perú</div>
+            </div>
+            <div style="display:flex;align-items:center;flex-direction:column;height:36px;">
+              <div style="width:1.5px;height:10px;background:var(--rule);"></div>
+              <span style="font-size:10px;font-weight:700;color:var(--ink3);background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:1px 6px;">99.9%</span>
+              <div style="width:1.5px;height:10px;background:var(--rule);"></div>
+            </div>
+            <!-- PC Costanera -->
+            <div class="org-node sub" style="width:100%;">
+              PC Costanera San Miguel SRL
+              <div class="node-sub">Verah I · Verah II · Verah III (Bongo)</div>
+            </div>
+            <div style="text-align:center;margin-top:4px;font-size:10px;color:var(--ink3);">0.1% Akamai</div>
+          </div>
+        </div>
+
+        <!-- Nota Paladin IV-CI -->
+        <div style="margin-top:20px;padding:10px 14px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;font-size:11px;color:var(--ink3);text-align:center;">
+          <strong style="color:var(--ink2);">Paladin Realty Latin America Investors IV-CI, LP</strong> (Delaware) participa con 0.1% en Emplepac junto con Palado Investors · también vinculada a ambas plataformas
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon" style="background:var(--amber2)">💡</span>Por qué la estructura genera el problema tributario</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+      <div style="padding:14px;background:var(--surface);border-radius:8px;border:1px solid var(--rule);">
+        <div style="font-weight:700;margin-bottom:6px;">Deudas dentro de la misma plataforma</div>
+        <div style="color:var(--ink2);font-size:12px;line-height:1.6;">Las subsidiarias Emblema 3 y La Pacífica prestan a su propio accionista Emplepac (Etapa I), y Emplepac capitaliza en La Pacífica (Etapa II). El nexo accionario es directo. <span style="color:var(--teal);font-weight:600;">Propuesto en Etapas I y II.</span></div>
+      </div>
+      <div style="padding:14px;background:var(--surface);border-radius:8px;border:1px solid var(--rule);">
+        <div style="font-weight:700;margin-bottom:6px;">Deudas entre distintas plataformas</div>
+        <div style="color:var(--ink2);font-size:12px;line-height:1.6;">Emblema 3 (Palardo) → PC Costanera (Vivienda PCII) y PC Costanera → La Pacífica: el único nexo formal es Akamai con 0.1%. Requiere una estructura de cesión o articulación via Akamai. <span style="color:var(--amber);font-weight:600;">⚠ Pendiente Etapa III.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PANEL 3 · DEUDA
+══════════════════════════════════════════════════════════════════ -->
+<section id="p-deuda" class="panel">
+  <div class="page-header">
+    <div class="page-eyebrow">Panel 3 · Deuda</div>
+    <div class="page-title">Montos de deuda entre vinculadas</div>
+    <div class="page-sub">Detalle agrupado por empresa acreedora con el mecanismo de capitalización propuesto para cada relación</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Mayor deuda individual</div>
+      <div class="stat-value c-red">S/ 12.1 MM</div>
+      <div class="stat-sub">Emblema 3 → La Pacífica</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Mayor acreedora</div>
+      <div class="stat-value c-amber" style="font-size:16px;">Emblema Tres SAC</div>
+      <div class="stat-sub">Le deben S/ 23.2 MM (3 relaciones)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Mayor deudora</div>
+      <div class="stat-value c-red" style="font-size:16px;">La Pacífica SAC</div>
+      <div class="stat-sub">Debe S/ 20.2 MM (3 relaciones)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Etapa III · Por definir</div>
+      <div class="stat-value c-purple">S/ 5.47 MM</div>
+      <div class="stat-sub">Nexo entre distintas plataformas</div>
+    </div>
+  </div>
+
+  <!-- Grupo Emblema Tres (acreedora) -->
+  <div class="section-divider"><div class="sd-label">Acreedora principal: Emblema Tres SAC</div></div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-amber" style="font-size:12px;">Subsidiaria Palardo</span> C. e Inmobiliaria Emblema Tres SAC · presta S/ 23.2 MM</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Empresa deudora</th><th>Relación</th><th>Mecanismo propuesto</th><th class="num">Monto S/</th><th>Etapa</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Emplepac SRL</strong></td>
+            <td class="muted">Emplepac es el accionista 99% de Emblema 3 · la subsidiaria le presta a su dueño</td>
+            <td>Compensación: Emplepac reduce su deuda usando la inversión en Emblema 3</td>
+            <td class="num">7,023,959</td>
+            <td><span class="badge badge-teal">Etapa I</span></td>
+          </tr>
+          <tr>
+            <td><strong>La Pacífica SAC</strong></td>
+            <td class="muted">Empresas hermanas bajo Emplepac (99% c/u)</td>
+            <td>Emblema 3 recibe pago vía reinversión directa en La Pacífica</td>
+            <td class="num">12,106,239</td>
+            <td><span class="badge badge-amber">Etapa II</span></td>
+          </tr>
+          <tr>
+            <td><strong>PC Costanera SRL</strong></td>
+            <td class="muted">Distintas plataformas · nexo Akamai 0.1%</td>
+            <td>Por definir: cesión de crédito o capitalización cruzada</td>
+            <td class="num">3,963,440</td>
+            <td><span class="badge badge-purple">Etapa III</span></td>
+          </tr>
+          <tr class="total-row"><td colspan="3">Total que le deben a Emblema Tres</td><td class="num">23,093,638</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Grupo Emplepac (acreedor) -->
+  <div class="section-divider"><div class="sd-label">Acreedor: Emplepac SRL</div></div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-coral" style="font-size:12px;">Holding operativo</span> Emplepac S.R.L. · presta S/ 6.8 MM</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Empresa deudora</th><th>Relación</th><th>Mecanismo propuesto</th><th class="num">Monto S/</th><th>Etapa</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>La Pacífica SAC</strong></td>
+            <td class="muted">Emplepac es accionista 99% de La Pacífica</td>
+            <td>Capitalización directa accionista → subsidiaria</td>
+            <td class="num">6,783,529</td>
+            <td><span class="badge badge-amber">Etapa II</span></td>
+          </tr>
+          <tr class="total-row"><td colspan="3">Total que le deben a Emplepac</td><td class="num">6,783,529</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Grupo La Pacífica (acreedora) -->
+  <div class="section-divider"><div class="sd-label">Acreedora: La Pacífica SAC</div></div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-amber" style="font-size:12px;">Subsidiaria Palardo</span> Inmobiliaria La Pacífica SAC · presta S/ 352K</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Empresa deudora</th><th>Relación</th><th>Mecanismo propuesto</th><th class="num">Monto S/</th><th>Etapa</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Emplepac SRL</strong></td>
+            <td class="muted">Emplepac es accionista 99% de La Pacífica · la subsidiaria le presta a su dueño</td>
+            <td>Compensación: La Pacífica aplica el cobro contra su deuda con Emplepac</td>
+            <td class="num">352,281</td>
+            <td><span class="badge badge-teal">Etapa I</span></td>
+          </tr>
+          <tr class="total-row"><td colspan="3">Total que le deben a La Pacífica</td><td class="num">352,281</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Grupo Vivienda PCII y PC Costanera -->
+  <div class="section-divider"><div class="sd-label">Acreedoras: plataforma Vivienda PCII</div></div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-purple" style="font-size:12px;">Plataforma Vivienda PCII</span> Vivienda PCII SRL y PC Costanera SRL · prestan S/ 2.4 MM</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Acreedor</th><th>Empresa deudora</th><th>Relación</th><th>Mecanismo propuesto</th><th class="num">Monto S/</th><th>Etapa</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Vivienda PCII SRL</strong></td>
+            <td>PC Costanera SRL</td>
+            <td class="muted">Accionista 99% → subsidiaria directa</td>
+            <td>Capitalización directa</td>
+            <td class="num">1,025,889</td>
+            <td><span class="badge badge-teal">Etapa I</span></td>
+          </tr>
+          <tr>
+            <td><strong>PC Costanera SRL</strong></td>
+            <td>La Pacífica SAC</td>
+            <td class="muted">Distintas plataformas · nexo Akamai 0.1%</td>
+            <td>Por definir: cesión o capitalización cruzada</td>
+            <td class="num">1,355,921</td>
+            <td><span class="badge badge-purple">Etapa III</span></td>
+          </tr>
+          <tr class="total-row"><td colspan="4">Subtotal plataforma PCII</td><td class="num">2,381,810</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Emblema → Akamai -->
+  <div class="section-divider"><div class="sd-label">Caso especial: Emblema Tres → Akamai SAC</div></div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-purple" style="font-size:12px;">Etapa III</span> Subsidiaria presta a la gestora</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Acreedor</th><th>Deudor</th><th>Relación</th><th>Mecanismo</th><th class="num">Monto S/</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Emblema Tres SAC</strong></td>
+            <td>Akamai SAC</td>
+            <td class="muted">Akamai es gestora inmobiliaria del grupo · Paladin accionista de ambas</td>
+            <td>Por definir · requiere instrucción desde Paladin</td>
+            <td class="num">155,505</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PANEL 4 · ETAPAS
+══════════════════════════════════════════════════════════════════ -->
+<section id="p-etapas" class="panel">
+  <div class="page-header">
+    <div class="page-eyebrow">Panel 4 · Plan de la contadora</div>
+    <div class="page-title">Reorganización en tres etapas</div>
+    <div class="page-sub">Propuesta de capitalización progresiva ordenada de más simple a más compleja, según la relación societaria entre acreedor y deudor</div>
+  </div>
+
+  <div class="etapas-flow">
+
+    <!-- ETAPA I -->
+    <div class="etapa-block">
+      <div class="etapa-spine">
+        <div class="etapa-circle e1">I</div>
+        <div class="etapa-vline"></div>
+      </div>
+      <div class="etapa-body">
+        <div class="etapa-tag">Etapa I · Propuesta</div>
+        <div class="etapa-title">Subsidiarias que prestan a su accionista, y holding que presta a su subsidiaria</div>
+        <div class="etapa-desc">Las relaciones más directas: o bien el deudor es el propio accionista mayoritario de quien le presta (se compensa contra la inversión), o bien el acreedor es directamente el accionista 99% del deudor. En ambos casos la capitalización es limpia y sin intermediarios.</div>
+        <div class="etapa-ops">
+          <div class="etapa-op">
+            <span class="badge badge-amber">Emblema Tres</span>
+            <span class="arrow">→</span>
+            <span class="empresa">Emplepac SRL</span>
+            <span class="muted" style="font-size:11px;">Subsidiaria cobra a su accionista · compensación con inversión</span>
+            <span class="amount pos">S/ 7,023,959</span>
+          </div>
+          <div class="etapa-op">
+            <span class="badge badge-amber">La Pacífica</span>
+            <span class="arrow">→</span>
+            <span class="empresa">Emplepac SRL</span>
+            <span class="muted" style="font-size:11px;">Subsidiaria cobra a su accionista · compensación con inversión</span>
+            <span class="amount pos">S/ 352,281</span>
+          </div>
+          <div class="etapa-op">
+            <span class="badge badge-purple">Vivienda PCII</span>
+            <span class="arrow">→</span>
+            <span class="empresa">PC Costanera SRL</span>
+            <span class="muted" style="font-size:11px;">Accionista 99% capitaliza en subsidiaria directa</span>
+            <span class="amount pos">S/ 1,025,889</span>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding:8px 14px;background:var(--teal2);border-radius:8px;border:1px solid var(--teal3);">
+            <span style="font-size:12px;color:var(--teal);font-weight:700;">Total propuesto Etapa I: S/ 8,402,129</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ETAPA II -->
+    <div class="etapa-block">
+      <div class="etapa-spine">
+        <div class="etapa-circle e2">II</div>
+        <div class="etapa-vline"></div>
+      </div>
+      <div class="etapa-body">
+        <div class="etapa-tag">Etapa II · Propuesta</div>
+        <div class="etapa-title">Empresas hermanas y holding que presta a su subsidiaria</div>
+        <div class="etapa-desc">Mayor complejidad: Emblema 3 le presta a La Pacífica (son hermanas bajo Emplepac) y Emplepac también le presta a La Pacífica directamente. La Pacífica es la empresa con mayor deuda del grupo (S/ 20.2 MM) y con patrimonio negativo. El objetivo de esta etapa es sanearlo.</div>
+        <div class="etapa-ops">
+          <div class="etapa-op">
+            <span class="badge badge-amber">Emblema Tres</span>
+            <span class="arrow">→</span>
+            <span class="empresa">La Pacífica SAC</span>
+            <span class="muted" style="font-size:11px;">Hermanas bajo Emplepac · capitalización cruzada</span>
+            <span class="amount pos">S/ 12,106,239</span>
+          </div>
+          <div class="etapa-op">
+            <span class="badge badge-coral">Emplepac</span>
+            <span class="arrow">→</span>
+            <span class="empresa">La Pacífica SAC</span>
+            <span class="muted" style="font-size:11px;">Accionista 99% capitaliza en subsidiaria</span>
+            <span class="amount pos">S/ 6,783,529</span>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding:8px 14px;background:var(--teal2);border-radius:8px;border:1px solid var(--teal3);">
+            <span style="font-size:12px;color:var(--teal);font-weight:700;">Total propuesto Etapa II: S/ 18,889,768</span>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;padding:12px 14px;background:var(--amber2);border:1px solid var(--amber3);border-radius:8px;font-size:12px;color:var(--amber);">
+          <strong>Efecto en La Pacífica:</strong> Patrimonio pasa de <strong>(S/ 10.03 MM)</strong> negativo a <strong>S/ 8.50 MM</strong> positivo. Capital adicional generado: S/ 18.54 MM. Las cuentas por pagar a vinculadas se reducen de S/ 22.66 MM a S/ 3.77 MM.
+        </div>
+      </div>
+    </div>
+
+    <!-- ETAPA III -->
+    <div class="etapa-block">
+      <div class="etapa-spine">
+        <div class="etapa-circle e3">III</div>
+      </div>
+      <div class="etapa-body">
+        <div class="etapa-tag">Etapa III · Pendiente de confirmación</div>
+        <div class="etapa-title">Subsidiarias de distintas plataformas + remanente Emplepac</div>
+        <div class="etapa-desc">Las operaciones más complejas: deudas donde el único nexo entre acreedor y deudor es Akamai con apenas 0.1%. Requiere definir si se resuelven mediante cesión de crédito o capitalización directa articulada desde Akamai o Paladin.</div>
+        <div class="etapa-ops">
+          <div class="etapa-op" style="border-color:var(--purple3);background:var(--purple2);">
+            <span class="badge badge-amber">La Pacífica</span>
+            <span class="arrow">→</span>
+            <span class="empresa">PC Costanera SRL</span>
+            <span class="muted" style="font-size:11px;">Cesión / capitalización (por definir)</span>
+            <span class="amount neg">S/ 1,355,921</span>
+          </div>
+          <div class="etapa-op" style="border-color:var(--purple3);background:var(--purple2);">
+            <span class="badge badge-coral">PC Costanera</span>
+            <span class="arrow">→</span>
+            <span class="empresa">Emblema Tres SAC</span>
+            <span class="muted" style="font-size:11px;">Cesión / capitalización (por definir)</span>
+            <span class="amount neg">S/ 3,963,440</span>
+          </div>
+          <div class="etapa-op" style="border-color:var(--purple3);background:var(--purple2);">
+            <span class="badge badge-teal">Akamai</span>
+            <span class="arrow">→</span>
+            <span class="empresa">Emblema Tres SAC</span>
+            <span class="muted" style="font-size:11px;">Por confirmar</span>
+            <span class="amount neg">S/ 155,505</span>
+          </div>
+          <div class="etapa-op" style="border-color:var(--purple3);background:var(--purple2);">
+            <span class="badge badge-coral">Emplepac</span>
+            <span class="arrow">→</span>
+            <span class="empresa">Remanente ctas. por cobrar</span>
+            <span class="muted" style="font-size:11px;">Saldo expuesto Art. 26 LIR</span>
+            <span class="amount neg">S/ 4,490,000</span>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding:8px 14px;background:var(--purple2);border-radius:8px;border:1px solid var(--purple3);">
+            <span style="font-size:12px;color:var(--purple);font-weight:700;">⚠ Total pendiente: S/ 9,964,866</span>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+          <div style="padding:12px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;">
+            <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Opción A — Cesión vía Akamai</div>
+            <div style="color:var(--ink2);line-height:1.6;">El acreedor cede el crédito a Akamai, quien lo capitaliza en el deudor. Akamai actúa como articulador entre plataformas. <span style="color:var(--red);">Posible implicancia de IGV si hay contraprestación.</span></div>
+          </div>
+          <div style="padding:12px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;">
+            <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Opción B — Capitalización directa Paladin</div>
+            <div style="color:var(--ink2);line-height:1.6;">Paladin consolida la decisión a nivel de Akamai e instruye la capitalización cruzada. Más limpia, menos pasos. Requiere acuerdo formal de socios. <span style="color:var(--teal);">Recomendada.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PANEL 5 · IMPACTO PATRIMONIAL
+══════════════════════════════════════════════════════════════════ -->
+<section id="p-impacto" class="panel">
+  <div class="page-header">
+    <div class="page-eyebrow">Panel 5 · Impacto</div>
+    <div class="page-title">Impacto patrimonial por empresa</div>
+    <div class="page-sub">Efecto contable de las operaciones propuestas en las Etapas I y II · Proyección antes y después de la reorganización</div>
+  </div>
+
+  <div class="impact-grid">
+    <!-- Emplepac -->
+    <div class="impact-card">
+      <div class="impact-head teal">🏢 Emplepac S.R.L. <span class="badge badge-navy" style="margin-left:auto;font-size:10px;">En análisis</span></div>
+      <div class="col-heads"><span>Antes</span><span>Después</span></div>
+      <div class="impact-rows">
+        <div class="impact-row"><span class="label">Inversión permanente</span><div class="vals"><span class="val-before">S/ 78.99 MM</span><span class="val-after neg">S/ 75.63 MM</span></div></div>
+        <div class="impact-row"><span class="label">Ctas. por cobrar vinculadas</span><div class="vals"><span class="val-before">S/ 8.51 MM</span><span class="val-after neg">S/ 4.49 MM</span></div></div>
+        <div class="impact-row"><span class="label">Ctas. por pagar vinculadas</span><div class="vals"><span class="val-before">S/ 9.15 MM</span><span class="val-after pos">S/ 1.78 MM</span></div></div>
+        <div class="impact-row" style="background:var(--surface);"><span class="label" style="font-weight:600;">Compensado</span><div class="vals"><span class="val-before">—</span><span class="val-after pos">S/ 7.38 MM</span></div></div>
+      </div>
+    </div>
+
+    <!-- Vivienda PCII -->
+    <div class="impact-card">
+      <div class="impact-head purple">🏘 Vivienda PC II SRL <span class="badge badge-navy" style="margin-left:auto;font-size:10px;">En análisis</span></div>
+      <div class="col-heads"><span>Antes</span><span>Después</span></div>
+      <div class="impact-rows">
+        <div class="impact-row"><span class="label">Cta. por cobrar PC Costanera</span><div class="vals"><span class="val-before">S/ 1.03 MM</span><span class="val-after pos">S/ 0</span></div></div>
+        <div class="impact-row"><span class="label">Inversión patrimonial en PC Costanera</span><div class="vals"><span class="val-before">—</span><span class="val-after pos">+S/ 1.03 MM</span></div></div>
+        <div class="impact-row" style="background:var(--surface);"><span class="label" style="font-weight:600;">Deuda capitalizada</span><div class="vals"><span class="val-before">—</span><span class="val-after pos">S/ 1.03 MM</span></div></div>
+      </div>
+    </div>
+
+    <!-- La Pacífica -->
+    <div class="impact-card">
+      <div class="impact-head amber">🏗 La Pacífica SAC <span class="badge badge-navy" style="margin-left:auto;font-size:10px;">Etapa II · En análisis</span></div>
+      <div class="col-heads"><span>Antes</span><span>Después</span></div>
+      <div class="impact-rows">
+        <div class="impact-row"><span class="label">Ctas. por pagar vinculadas</span><div class="vals"><span class="val-before">S/ 22.66 MM</span><span class="val-after pos">S/ 3.77 MM</span></div></div>
+        <div class="impact-row"><span class="label">Ctas. por cobrar vinc. LP</span><div class="vals"><span class="val-before">S/ 0.68 MM</span><span class="val-after">S/ 0.33 MM</span></div></div>
+        <div class="impact-row"><span class="label">Capital adicional</span><div class="vals"><span class="val-before">S/ 0</span><span class="val-after pos">S/ 18.54 MM</span></div></div>
+        <div class="impact-row" style="background:var(--teal2);border-top:2px solid var(--teal3);"><span class="label" style="font-weight:700;color:var(--teal);">Patrimonio total</span><div class="vals"><span class="val-after neg" style="text-decoration:line-through;">(S/ 10.03 MM)</span><span class="val-after pos" style="font-size:14px;">S/ 8.50 MM</span></div></div>
+      </div>
+    </div>
+
+    <!-- Emblema 3 -->
+    <div class="impact-card">
+      <div class="impact-head coral">🏛 Emblema Tres SAC <span class="badge badge-amber" style="margin-left:auto;font-size:10px;">Etapa II · Punto crítico</span></div>
+      <div class="col-heads"><span>Antes</span><span>Después</span></div>
+      <div class="impact-rows">
+        <div class="impact-row"><span class="label">Ctas. por cobrar relacionadas LP</span><div class="vals"><span class="val-before">S/ 25.90 MM</span><span class="val-after">S/ 6.77 MM</span></div></div>
+        <div class="impact-row"><span class="label">Capital</span><div class="vals"><span class="val-before">S/ 0</span><span class="val-after neg">(S/ 19.13 MM)</span></div></div>
+        <div class="impact-row" style="background:var(--red2);border-top:2px solid var(--red3);"><span class="label" style="font-weight:700;color:var(--red);">Patrimonio total</span><div class="vals"><span class="val-before">S/ 28.81 MM</span><span class="val-after neg">S/ 9.68 MM</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠ Capital negativo en Emblema Tres SAC:</strong> Como consecuencia contable de la Etapa II, Emblema 3 registra un capital de (S/ 19.13 MM). Aunque el patrimonio total sigue siendo positivo en S/ 9.68 MM, conviene verificar que esta situación no active ningún covenant bancario, restricción contractual en los proyectos Simplicity o Homie, ni limitaciones para distribución de utilidades futuras.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PANEL 6 · RIESGOS
+══════════════════════════════════════════════════════════════════ -->
+<section id="p-riesgos" class="panel">
+  <div class="page-header">
+    <div class="page-eyebrow">Panel 6 · Riesgos</div>
+    <div class="page-title">Riesgos y alertas del proceso</div>
+    <div class="page-sub">Mapa de riesgos tributarios, legales y financieros identificados en la reorganización patrimonial</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card" style="border-left:3px solid var(--red);">
+      <div class="stat-label">Riesgo alto</div>
+      <div class="stat-value c-red">3</div>
+      <div class="stat-sub">Exposición directa</div>
+    </div>
+    <div class="stat-card" style="border-left:3px solid var(--amber3);">
+      <div class="stat-label">Riesgo medio</div>
+      <div class="stat-value c-amber">3</div>
+      <div class="stat-sub">Gestión requerida</div>
+    </div>
+    <div class="stat-card" style="border-left:3px solid var(--green3);">
+      <div class="stat-label">Riesgo bajo / resuelto</div>
+      <div class="stat-value c-green">2</div>
+      <div class="stat-sub">Mitigado por el plan</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Exposición fiscal activa</div>
+      <div class="stat-value c-red">≈ S/ 9.96 MM</div>
+      <div class="stat-sub">Base de interés presunto</div>
+    </div>
+  </div>
+
+  <div class="risk-matrix">
+
+    <div class="risk-card" style="border-left:3px solid var(--red);">
+      <div class="risk-header">
+        <div>
+          <div class="risk-level alto">Alto</div>
+        </div>
+        <div class="risk-title">Interés presunto Art. 26 LIR · saldos pendientes</div>
+      </div>
+      <div class="risk-body">
+        SUNAT presume intereses sobre <strong>S/ 9.96 MM</strong> no resueltos: S/ 5.47 MM de Etapa III más S/ 4.49 MM de remanente Emplepac. A la tasa activa en moneda nacional (~12–14% anual), el impuesto a la renta ficticio generado puede superar los <strong>S/ 400,000 anuales</strong>.
+      </div>
+      <div class="risk-footer red">Acción urgente: definir mecanismo Etapa III antes del cierre fiscal del ejercicio.</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--red);">
+      <div class="risk-header">
+        <div><div class="risk-level alto">Alto</div></div>
+        <div class="risk-title">Capital negativo en Emblema Tres SAC</div>
+      </div>
+      <div class="risk-body">
+        Tras la Etapa II, Emblema 3 registra capital de <strong>(S/ 19.13 MM)</strong>. Si bien el patrimonio total es positivo (S/ 9.68 MM), esta situación puede activar: covenants en contratos de crédito bancario, restricciones en contratos de preventa (Simplicity, Homie), o limitaciones en contratos con la municipalidad o socios de los proyectos.
+      </div>
+      <div class="risk-footer red">Revisar contratos vigentes de Emblema 3 antes de registrar la operación.</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--red);">
+      <div class="risk-header">
+        <div><div class="risk-level alto">Alto</div></div>
+        <div class="risk-title">Mecanismo no definido para Etapa III</div>
+      </div>
+      <div class="risk-body">
+        Las deudas cruzadas entre plataformas (Emblema 3 → PC Costanera y PC Costanera → La Pacífica) no tienen un mecanismo formal aprobado. Una cesión de crédito puede generar <strong>IGV (18%)</strong> si hay contraprestación. Una capitalización directa requiere acuerdo de socios y modificación de estatutos. El retraso prolonga la exposición al Art. 26 LIR.
+      </div>
+      <div class="risk-footer red">Consultar con abogado tributario antes de ejecutar cualquier opción en Etapa III.</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--amber3);">
+      <div class="risk-header">
+        <div><div class="risk-level medio">Medio</div></div>
+        <div class="risk-title">IGV en cesión de créditos</div>
+      </div>
+      <div class="risk-body">
+        Si en la Etapa III se opta por la cesión de crédito como mecanismo articulador vía Akamai, la operación podría calificar como prestación de servicios gravada con <strong>IGV del 18%</strong>. Esto generaría un costo adicional no previsto sobre los S/ 5.47 MM pendientes (hasta S/ 985,000 de IGV).
+      </div>
+      <div class="risk-footer amber">Estructurar la operación como aporte de capital, no como cesión onerosa.</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--amber3);">
+      <div class="risk-header">
+        <div><div class="risk-level medio">Medio</div></div>
+        <div class="risk-title">Fiscalización de precios de transferencia</div>
+      </div>
+      <div class="risk-body">
+        Las operaciones entre vinculadas están sujetas a las reglas de precios de transferencia (Art. 32-A LIR). SUNAT puede cuestionar que los montos capitalizados no reflejen el valor de mercado, especialmente en las deudas entre subsidiarias de distintas plataformas donde el nexo es solo 0.1%.
+      </div>
+      <div class="risk-footer amber">Preparar documentación técnica de sustento (Estudio de Precios de Transferencia).</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--amber3);">
+      <div class="risk-header">
+        <div><div class="risk-level medio">Medio</div></div>
+        <div class="risk-title">Impuesto a la Renta por devolución de capital</div>
+      </div>
+      <div class="risk-body">
+        Las devoluciones de capital en Emblema 3 (S/ 19.13 MM) y su reinversión en La Pacífica deben acreditarse como capital aportado original, no como utilidades distribuidas. Si SUNAT reclasifica la devolución como dividendo, aplicaría la <strong>tasa de 5% adicional</strong> de IR para distribución a no domiciliados.
+      </div>
+      <div class="risk-footer amber">Asegurar la trazabilidad del capital original vs. utilidades en los libros de Emblema 3.</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--green3);">
+      <div class="risk-header">
+        <div><div class="risk-level bajo">Bajo · Mitigado</div></div>
+        <div class="risk-title">Interés presunto en Etapas I y II</div>
+      </div>
+      <div class="risk-body">
+        Una vez ejecutadas las capitalizaciones de las Etapas I y II, se eliminará la base del interés presunto sobre S/ 27.3 MM. Una vez registradas contablemente, SUNAT no podrá presumir intereses sobre las deudas capitalizadas.
+      </div>
+      <div class="risk-footer green">Riesgo se eliminará una vez se ejecuten y registren contablemente las operaciones.</div>
+    </div>
+
+    <div class="risk-card" style="border-left:3px solid var(--green3);">
+      <div class="risk-header">
+        <div><div class="risk-level bajo">Bajo · Mitigado</div></div>
+        <div class="risk-title">Patrimonio negativo de La Pacífica</div>
+      </div>
+      <div class="risk-body">
+        La Pacífica tiene patrimonio negativo, con S/ 20.2 MM de deudas (la mayor deudora del grupo), lo cual podía afectar la obtención de créditos, permisos y contratos. Tras la Etapa II, el patrimonio es positivo en <strong>S/ 8.50 MM</strong>, con capital adicional de S/ 18.54 MM.
+      </div>
+      <div class="risk-footer green">Situación se resolverá al ejecutar la Etapa II del plan.</div>
+    </div>
+
+  </div>
+
+  <!-- Scorecard final -->
+  <div class="section-divider" style="margin-top:28px;"><div class="sd-label">Scorecard del plan</div></div>
+  <div class="sc-row">
+    <div class="sc-card">
+      <div class="sc-label">Propuesto Etapas I + II</div>
+      <div class="sc-val" style="color:var(--teal);">S/ 27.3 MM</div>
+      <div class="sc-note">5 operaciones propuestas · Etapas I y II en análisis</div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-label">Pendiente Etapa III</div>
+      <div class="sc-val" style="color:var(--amber);">S/ 9.96 MM</div>
+      <div class="sc-note">Incluye remanente Emplepac S/ 4.49 MM</div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-label">IR anual proyectado a eliminar</div>
+      <div class="sc-val" style="color:var(--teal);">≈ S/ 780K</div>
+      <div class="sc-note">Interés presunto eliminado sobre S/ 27.3 MM</div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+</div>
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
