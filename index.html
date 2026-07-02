@@ -525,25 +525,6 @@ tbody tr:hover td { background: var(--surface); }
     </div>
   </div>
 
-  <!-- LEYENDA DE ETAPAS -->
-  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;background:var(--white);">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:12px;">Qué significa cada etapa en la tabla</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px;">
-      <div style="display:flex;gap:10px;align-items:flex-start;">
-        <span class="badge badge-teal" style="margin-top:1px;flex-shrink:0;">Etapa I</span>
-        <div style="color:var(--ink2);line-height:1.5;"><strong style="color:var(--ink);">Plataformas → subsidiarias directas.</strong> Las deudas más simples: el acreedor es el accionista mayoritario directo del deudor (99.9–99.999%). La capitalización es directa y sin intermediarios.</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start;">
-        <span class="badge badge-amber" style="margin-top:1px;flex-shrink:0;">Etapa II</span>
-        <div style="color:var(--ink2);line-height:1.5;"><strong style="color:var(--ink);">Entre subsidiarias de la misma plataforma.</strong> Deudas entre empresas hermanas bajo el mismo holding. Requiere una devolución de capital con instrucción de reinversión. Complejidad media.</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start;">
-        <span class="badge badge-purple" style="margin-top:1px;flex-shrink:0;">Etapa III</span>
-        <div style="color:var(--ink2);line-height:1.5;"><strong style="color:var(--ink);">Entre subsidiarias de distintas plataformas.</strong> Las más complejas: el único nexo entre acreedor y deudor es Akamai con 0.1%. Requiere confirmar el mecanismo (cesión de crédito o capitalización directa).</div>
-      </div>
-    </div>
-  </div>
-
   <div class="stat-row">
     <div class="stat-card">
       <div class="stat-label">Deuda total entre vinculadas</div>
@@ -598,6 +579,25 @@ tbody tr:hover td { background: var(--surface); }
     </div>
   </div>
 
+  <!-- LEYENDA DE ETAPAS -->
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;background:var(--white);">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:12px;">Qué significa cada etapa</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--teal2);border-radius:8px;">
+        <span class="badge badge-teal" style="margin-top:1px;flex-shrink:0;">Etapa I</span>
+        <div style="color:var(--teal);line-height:1.5;"><strong style="color:#085041;">Subsidiarias con su accionista directo.</strong> Compensación simple: la deuda se extingue contra el capital. Relación directa 99%.</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--amber2);border-radius:8px;">
+        <span class="badge badge-amber" style="margin-top:1px;flex-shrink:0;">Etapa II</span>
+        <div style="color:var(--amber);line-height:1.5;"><strong style="color:#633806;">Empresas hermanas o holding → subsidiaria.</strong> Devolución de capital con reinversión simultánea. Complejidad media.</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--purple2);border-radius:8px;">
+        <span class="badge badge-purple" style="margin-top:1px;flex-shrink:0;">Etapa III</span>
+        <div style="color:var(--purple);line-height:1.5;"><strong style="color:#3c3489;">Distintas plataformas.</strong> El nexo es Akamai con 0.1%. Requiere cesión de crédito o instrucción directa desde Paladin.</div>
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-title">
       <span class="icon" style="background:var(--amber2)">📋</span>
@@ -617,17 +617,12 @@ tbody tr:hover td { background: var(--surface); }
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="muted">1</td>
-            <td><strong>Emblema Tres SAC</strong></td>
-            <td>Akamai SAC</td>
-            <td class="muted">Subsidiaria → gestora del grupo</td>
-            <td class="num">155,505</td>
-            <td><span class="badge badge-purple">Etapa III</span></td>
-            <td><span class="badge badge-navy">En análisis</span></td>
+          <!-- ETAPA I -->
+          <tr style="background:var(--teal2);">
+            <td colspan="7" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);padding:6px 12px;">Etapa I · Subsidiarias con su accionista directo</td>
           </tr>
           <tr>
-            <td class="muted">2</td>
+            <td class="muted">1</td>
             <td><strong>Emblema Tres SAC</strong></td>
             <td>Emplepac SRL</td>
             <td class="muted">Subsidiaria → su propio accionista (99%)</td>
@@ -636,7 +631,7 @@ tbody tr:hover td { background: var(--surface); }
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
           <tr>
-            <td class="muted">3</td>
+            <td class="muted">2</td>
             <td><strong>La Pacífica SAC</strong></td>
             <td>Emplepac SRL</td>
             <td class="muted">Subsidiaria → su propio accionista (99%)</td>
@@ -645,16 +640,20 @@ tbody tr:hover td { background: var(--surface); }
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
           <tr>
-            <td class="muted">4</td>
-            <td><strong>Vivienda PCII SRL</strong></td>
-            <td>PC Costanera SRL</td>
-            <td class="muted">Accionista 99% → subsidiaria directa</td>
+            <td class="muted">3</td>
+            <td><strong>PC Costanera SRL</strong></td>
+            <td>Vivienda PCII SRL</td>
+            <td class="muted">Subsidiaria → su propio accionista (99%)</td>
             <td class="num">1,025,889</td>
             <td><span class="badge badge-teal">Etapa I</span></td>
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
+          <!-- ETAPA II -->
+          <tr style="background:var(--amber2);">
+            <td colspan="7" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--amber);padding:6px 12px;">Etapa II · Empresas hermanas y holding → subsidiaria</td>
+          </tr>
           <tr>
-            <td class="muted">5</td>
+            <td class="muted">4</td>
             <td><strong>Emblema Tres SAC</strong></td>
             <td>La Pacífica SAC</td>
             <td class="muted">Empresas hermanas bajo Emplepac (99%)</td>
@@ -663,7 +662,7 @@ tbody tr:hover td { background: var(--surface); }
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
           <tr>
-            <td class="muted">6</td>
+            <td class="muted">5</td>
             <td><strong>Emplepac SRL</strong></td>
             <td>La Pacífica SAC</td>
             <td class="muted">Accionista 99% → subsidiaria directa</td>
@@ -671,8 +670,12 @@ tbody tr:hover td { background: var(--surface); }
             <td><span class="badge badge-amber">Etapa II</span></td>
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
+          <!-- ETAPA III -->
+          <tr style="background:var(--purple2);">
+            <td colspan="7" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);padding:6px 12px;">Etapa III · Distintas plataformas · mecanismo por confirmar</td>
+          </tr>
           <tr>
-            <td class="muted">7</td>
+            <td class="muted">6</td>
             <td><strong>PC Costanera SRL</strong></td>
             <td>La Pacífica SAC</td>
             <td class="muted">Distintas plataformas · nexo Akamai 0.1%</td>
@@ -681,11 +684,20 @@ tbody tr:hover td { background: var(--surface); }
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
           <tr>
-            <td class="muted">8</td>
+            <td class="muted">7</td>
             <td><strong>Emblema Tres SAC</strong></td>
             <td>PC Costanera SRL</td>
             <td class="muted">Distintas plataformas · nexo Akamai 0.1%</td>
             <td class="num">3,963,440</td>
+            <td><span class="badge badge-purple">Etapa III</span></td>
+            <td><span class="badge badge-navy">En análisis</span></td>
+          </tr>
+          <tr>
+            <td class="muted">8</td>
+            <td><strong>Emblema Tres SAC</strong></td>
+            <td>Akamai SAC</td>
+            <td class="muted">Subsidiaria → gestora del grupo</td>
+            <td class="num">155,505</td>
             <td><span class="badge badge-purple">Etapa III</span></td>
             <td><span class="badge badge-navy">En análisis</span></td>
           </tr>
@@ -1068,7 +1080,7 @@ tbody tr:hover td { background: var(--surface); }
         <!-- DIAGRAMA ETAPA I -->
         <div style="margin-top:14px;">
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px;">Flujo de capitalización — Etapa I</div>
-          <svg width="100%" viewBox="0 0 680 260" role="img">
+          <svg width="100%" style="max-width:560px;display:block;" viewBox="0 0 680 260" role="img">
             <title>Flujo de capitalización Etapa I</title>
             <desc>Diagrama que muestra cómo las subsidiarias compensan deuda con su accionista (Emplepac) y cómo Vivienda PCII capitaliza en PC Costanera</desc>
             <defs>
@@ -1185,7 +1197,7 @@ tbody tr:hover td { background: var(--surface); }
         <!-- DIAGRAMA ETAPA II -->
         <div style="margin-top:14px;">
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px;">Flujo de capitalización — Etapa II</div>
-          <svg width="100%" viewBox="0 0 680 310" role="img">
+          <svg width="100%" style="max-width:560px;display:block;" viewBox="0 0 680 310" role="img">
             <title>Flujo de capitalización Etapa II</title>
             <desc>Diagrama que muestra cómo Emblema Tres devuelve capital con instrucción de reinversión en La Pacífica, y cómo Emplepac capitaliza directamente en La Pacífica</desc>
             <defs>
@@ -1305,7 +1317,7 @@ tbody tr:hover td { background: var(--surface); }
         <!-- DIAGRAMA ETAPA III -->
         <div style="margin-top:14px;">
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px;">Flujo de capitalización — Etapa III (vía Akamai como articulador)</div>
-          <svg width="100%" viewBox="0 0 680 300" role="img">
+          <svg width="100%" style="max-width:560px;display:block;" viewBox="0 0 680 300" role="img">
             <title>Flujo de capitalización Etapa III</title>
             <desc>Diagrama que muestra cómo Akamai actúa como articulador entre plataformas para capitalizar deudas cruzadas entre Emblema Tres, PC Costanera y La Pacífica</desc>
             <defs>
