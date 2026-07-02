@@ -1064,6 +1064,83 @@ tbody tr:hover td { background: var(--surface); }
           <div style="font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;color:var(--navy);">⚖️ Solución legal propuesta — Etapa I</div>
           Cada operación se formaliza mediante <strong>Acta de Junta General de Socios</strong> de cada empresa, en la que los socios aprueban la <strong>compensación de la cuenta por cobrar/pagar contra el capital social</strong>. La deuda se extingue por compensación (Art. 1288 Código Civil peruano) y el monto se registra como capital adicional en la empresa deudora. No requiere desembolso de caja. Debe elevarse a escritura pública e inscribirse el aumento de capital en SUNARP.
         </div>
+
+        <!-- DIAGRAMA ETAPA I -->
+        <div style="margin-top:14px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px;">Flujo de capitalización — Etapa I</div>
+          <svg width="100%" viewBox="0 0 680 260" role="img">
+            <title>Flujo de capitalización Etapa I</title>
+            <desc>Diagrama que muestra cómo las subsidiarias compensan deuda con su accionista (Emplepac) y cómo Vivienda PCII capitaliza en PC Costanera</desc>
+            <defs>
+              <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- PLATAFORMA PALARDO -->
+            <!-- Emplepac (accionista / deudor) -->
+            <g>
+              <rect x="260" y="20" width="160" height="52" rx="8" fill="#faece7" stroke="#f0997b" stroke-width="0.5"/>
+              <text class="th" x="340" y="40" text-anchor="middle" dominant-baseline="central" fill="#993c1d">Emplepac SRL</text>
+              <text class="ts" x="340" y="58" text-anchor="middle" dominant-baseline="central" fill="#993c1d">Holding · deudor</text>
+            </g>
+
+            <!-- Emblema Tres (acreedora) -->
+            <g>
+              <rect x="60" y="150" width="160" height="52" rx="8" fill="#faeeda" stroke="#fac775" stroke-width="0.5"/>
+              <text class="th" x="140" y="170" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Emblema Tres SAC</text>
+              <text class="ts" x="140" y="188" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Acreedora · S/ 7.02 MM</text>
+            </g>
+
+            <!-- La Pacífica (acreedora) -->
+            <g>
+              <rect x="260" y="150" width="160" height="52" rx="8" fill="#faeeda" stroke="#fac775" stroke-width="0.5"/>
+              <text class="th" x="340" y="170" text-anchor="middle" dominant-baseline="central" fill="#854f0b">La Pacífica SAC</text>
+              <text class="ts" x="340" y="188" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Acreedora · S/ 352K</text>
+            </g>
+
+            <!-- Flechas: subsidiarias → Emplepac (compensación) -->
+            <line x1="200" y1="150" x2="290" y2="72" stroke="#854f0b" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <rect x="178" y="94" width="88" height="26" rx="4" fill="#faeeda"/>
+            <text class="ts" x="222" y="107" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Compensación</text>
+
+            <line x1="340" y1="150" x2="340" y2="72" stroke="#854f0b" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <rect x="346" y="94" width="80" height="26" rx="4" fill="#faeeda"/>
+            <text class="ts" x="386" y="107" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Compensación</text>
+
+            <!-- Etiqueta resultado -->
+            <rect x="218" y="114" width="244" height="20" rx="4" fill="none"/>
+            <text class="ts" x="340" y="134" text-anchor="middle" dominant-baseline="central" fill="var(--ink3)">La deuda se extingue → sube capital en Emplepac</text>
+
+            <!-- SEPARADOR -->
+            <line x1="480" y1="20" x2="480" y2="240" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="4 3"/>
+
+            <!-- PLATAFORMA VIVIENDA PCII -->
+            <!-- Vivienda PCII (accionista / acreedora) -->
+            <g>
+              <rect x="510" y="20" width="150" height="52" rx="8" fill="#eeedfe" stroke="#afa9ec" stroke-width="0.5"/>
+              <text class="th" x="585" y="40" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Vivienda PCII</text>
+              <text class="ts" x="585" y="58" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Accionista 99% · acreedor</text>
+            </g>
+
+            <!-- PC Costanera (deudora) -->
+            <g>
+              <rect x="510" y="150" width="150" height="52" rx="8" fill="#eeedfe" stroke="#afa9ec" stroke-width="0.5"/>
+              <text class="th" x="585" y="170" text-anchor="middle" dominant-baseline="central" fill="#534ab7">PC Costanera SRL</text>
+              <text class="ts" x="585" y="188" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Deudora · S/ 1.03 MM</text>
+            </g>
+
+            <!-- Flecha capitalización directa -->
+            <line x1="585" y1="72" x2="585" y2="150" stroke="#534ab7" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <rect x="595" y="97" width="82" height="26" rx="4" fill="#eeedfe"/>
+            <text class="ts" x="636" y="110" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Capitalización</text>
+            <text class="ts" x="636" y="122" text-anchor="middle" dominant-baseline="central" fill="#534ab7">directa</text>
+
+            <!-- Etiquetas plataforma -->
+            <text class="ts" x="220" y="245" text-anchor="middle" fill="var(--ink3)">Plataforma Palardo</text>
+            <text class="ts" x="585" y="245" text-anchor="middle" fill="var(--ink3)">Plataforma Vivienda PCII</text>
+          </svg>
+        </div>
       </div>
     </div>
 
@@ -1103,6 +1180,66 @@ tbody tr:hover td { background: var(--surface); }
         <div style="margin-top:10px;padding:14px 16px;background:var(--navy3);border:1px solid #b5cfe8;border-radius:8px;font-size:12px;color:var(--navy-txt);line-height:1.7;">
           <div style="font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;color:var(--navy);">⚖️ Solución legal propuesta — Etapa II</div>
           Se requieren dos actos simultáneos aprobados en <strong>Junta General de Socios</strong>: (1) <strong>Reducción de capital con devolución</strong> en Emblema Tres SAC por el monto adeudado por La Pacífica, con instrucción expresa de que el importe no se devuelve en efectivo sino que se reinvierte como aporte en La Pacífica SAC; (2) <strong>Aumento de capital en La Pacífica SAC</strong> por ese mismo importe más la compensación de la deuda con Emplepac. Ambas operaciones se formalizan en actas simultáneas, se elevan a escritura pública y se inscriben en SUNARP. Al no haber flujo de caja, no se genera Impuesto a la Renta por distribución ni IGV.
+        </div>
+
+        <!-- DIAGRAMA ETAPA II -->
+        <div style="margin-top:14px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px;">Flujo de capitalización — Etapa II</div>
+          <svg width="100%" viewBox="0 0 680 310" role="img">
+            <title>Flujo de capitalización Etapa II</title>
+            <desc>Diagrama que muestra cómo Emblema Tres devuelve capital con instrucción de reinversión en La Pacífica, y cómo Emplepac capitaliza directamente en La Pacífica</desc>
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- Emplepac (accionista de ambas) -->
+            <g>
+              <rect x="260" y="20" width="160" height="52" rx="8" fill="#faece7" stroke="#f0997b" stroke-width="0.5"/>
+              <text class="th" x="340" y="40" text-anchor="middle" dominant-baseline="central" fill="#993c1d">Emplepac SRL</text>
+              <text class="ts" x="340" y="58" text-anchor="middle" dominant-baseline="central" fill="#993c1d">Accionista 99% de ambas</text>
+            </g>
+
+            <!-- Emblema Tres (acreedora, devuelve capital) -->
+            <g>
+              <rect x="60" y="150" width="175" height="56" rx="8" fill="#faeeda" stroke="#fac775" stroke-width="0.5"/>
+              <text class="th" x="147" y="168" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Emblema Tres SAC</text>
+              <text class="ts" x="147" y="186" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Acreedora · S/ 12.1 MM</text>
+              <text class="ts" x="147" y="200" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Reduce capital</text>
+            </g>
+
+            <!-- La Pacífica (deudora, recibe capitalización) -->
+            <g>
+              <rect x="445" y="150" width="175" height="56" rx="8" fill="#e1f5ee" stroke="#9fe1cb" stroke-width="0.5"/>
+              <text class="th" x="532" y="168" text-anchor="middle" dominant-baseline="central" fill="#0f6e56">La Pacífica SAC</text>
+              <text class="ts" x="532" y="186" text-anchor="middle" dominant-baseline="central" fill="#0f6e56">Deudora · S/ 20.2 MM</text>
+              <text class="ts" x="532" y="200" text-anchor="middle" dominant-baseline="central" fill="#0f6e56">Recibe capital</text>
+            </g>
+
+            <!-- FLECHA 1: Emblema → Emplepac (solicita devolución) -->
+            <path d="M147 150 L147 80 L260 80" fill="none" stroke="#854f0b" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr2)"/>
+            <rect x="60" y="60" width="126" height="20" rx="4" fill="#faeeda"/>
+            <text class="ts" x="123" y="70" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Solicita devolución</text>
+
+            <!-- FLECHA 2: Emplepac → La Pacífica (instrucción de reinversión) -->
+            <path d="M420 46 L532 46 L532 150" fill="none" stroke="#993c1d" stroke-width="2" marker-end="url(#arr2)"/>
+            <rect x="430" y="28" width="156" height="20" rx="4" fill="#faece7"/>
+            <text class="ts" x="508" y="38" text-anchor="middle" dominant-baseline="central" fill="#993c1d">Instrucción: reinvertir en LP</text>
+
+            <!-- FLECHA 3: Emplepac → La Pacífica (capitalización directa S/ 6.8 MM) -->
+            <path d="M340 72 L340 130 L532 130 L532 150" fill="none" stroke="#0f6e56" stroke-width="1.5" marker-end="url(#arr2)"/>
+            <rect x="350" y="112" width="162" height="20" rx="4" fill="#e1f5ee"/>
+            <text class="ts" x="431" y="122" text-anchor="middle" dominant-baseline="central" fill="#0f6e56">Capitaliza S/ 6.78 MM directamente</text>
+
+            <!-- RESULTADO -->
+            <rect x="390" y="228" width="240" height="40" rx="8" fill="#e1f5ee" stroke="#9fe1cb" stroke-width="0.5"/>
+            <text class="ts" x="510" y="242" text-anchor="middle" dominant-baseline="central" fill="#0f6e56">Patrimonio LP: (10 MM) → +8.5 MM</text>
+            <text class="ts" x="510" y="258" text-anchor="middle" dominant-baseline="central" fill="#0f6e56">Capital adicional: S/ 18.54 MM</text>
+
+            <!-- Etiqueta sin caja -->
+            <text class="ts" x="340" y="295" text-anchor="middle" fill="var(--ink3)">Sin flujo de caja — todo es compensación y reinversión contable</text>
+          </svg>
         </div>
       </div>
     </div>
@@ -1163,6 +1300,86 @@ tbody tr:hover td { background: var(--surface); }
         <div style="margin-top:10px;padding:14px 16px;background:var(--navy3);border:1px solid #b5cfe8;border-radius:8px;font-size:12px;color:var(--navy-txt);line-height:1.7;">
           <div style="font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;color:var(--navy);">⚖️ Solución legal propuesta — Etapa III</div>
           Al no existir una relación accionaria directa entre las empresas de distintas plataformas, se requiere que <strong>Akamai SAC actúe como vehículo articulador</strong>: mediante <strong>Acta de Junta General de Socios de Akamai</strong>, se aprueba recibir la cesión del crédito del acreedor y aportarlo como capital en la empresa deudora. Alternativamente, <strong>Paladin Realty Partners</strong> puede instruir directamente la capitalización cruzada desde la cúpula de ambas plataformas. En ambos casos: (1) no se generan intereses ni IGV pues no hay contraprestación; (2) no hay flujo de caja; (3) las actas deben ser simultáneas, elevadas a escritura pública e inscritas en SUNARP. La actualización de cifras entre vinculadas dentro del proceso de reorganización tampoco genera IGV al tratarse de ajustes contables intragrupo sin transferencia de bienes ni servicios.
+        </div>
+
+        <!-- DIAGRAMA ETAPA III -->
+        <div style="margin-top:14px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px;">Flujo de capitalización — Etapa III (vía Akamai como articulador)</div>
+          <svg width="100%" viewBox="0 0 680 300" role="img">
+            <title>Flujo de capitalización Etapa III</title>
+            <desc>Diagrama que muestra cómo Akamai actúa como articulador entre plataformas para capitalizar deudas cruzadas entre Emblema Tres, PC Costanera y La Pacífica</desc>
+            <defs>
+              <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- Paladin (cúpula) -->
+            <g>
+              <rect x="255" y="10" width="170" height="44" rx="8" fill="#d6e4f5" stroke="#185fa5" stroke-width="0.5"/>
+              <text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central" fill="#0c1e30">Paladin Realty Partners</text>
+              <text class="ts" x="340" y="44" text-anchor="middle" dominant-baseline="central" fill="#0c1e30">Matriz global · instruye</text>
+            </g>
+
+            <!-- Akamai (articulador central) -->
+            <g>
+              <rect x="255" y="100" width="170" height="44" rx="8" fill="#e1f5ee" stroke="#0f6e56" stroke-width="1"/>
+              <text class="th" x="340" y="118" text-anchor="middle" dominant-baseline="central" fill="#085041">Akamai SAC</text>
+              <text class="ts" x="340" y="134" text-anchor="middle" dominant-baseline="central" fill="#085041">Articulador · gestora</text>
+            </g>
+
+            <!-- Flecha Paladin → Akamai -->
+            <line x1="340" y1="54" x2="340" y2="100" stroke="#185fa5" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr3)"/>
+            <rect x="346" y="68" width="88" height="18" rx="3" fill="#d6e4f5"/>
+            <text class="ts" x="390" y="77" text-anchor="middle" dominant-baseline="central" fill="#0c1e30">Instrucción JGS</text>
+
+            <!-- Emblema Tres (Palardo) -->
+            <g>
+              <rect x="40" y="210" width="155" height="52" rx="8" fill="#faeeda" stroke="#fac775" stroke-width="0.5"/>
+              <text class="th" x="117" y="229" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Emblema Tres SAC</text>
+              <text class="ts" x="117" y="247" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Plataforma Palardo</text>
+              <text class="ts" x="117" y="258" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Acreedora S/ 3.96 MM</text>
+            </g>
+
+            <!-- PC Costanera (Vivienda PCII) -->
+            <g>
+              <rect x="263" y="210" width="155" height="52" rx="8" fill="#eeedfe" stroke="#afa9ec" stroke-width="0.5"/>
+              <text class="th" x="340" y="229" text-anchor="middle" dominant-baseline="central" fill="#534ab7">PC Costanera SRL</text>
+              <text class="ts" x="340" y="247" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Plataforma PCII</text>
+              <text class="ts" x="340" y="258" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Deudora / acreedora</text>
+            </g>
+
+            <!-- La Pacífica (Palardo) -->
+            <g>
+              <rect x="485" y="210" width="155" height="52" rx="8" fill="#faeeda" stroke="#fac775" stroke-width="0.5"/>
+              <text class="th" x="562" y="229" text-anchor="middle" dominant-baseline="central" fill="#854f0b">La Pacífica SAC</text>
+              <text class="ts" x="562" y="247" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Plataforma Palardo</text>
+              <text class="ts" x="562" y="258" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Deudora S/ 1.36 MM</text>
+            </g>
+
+            <!-- Akamai ← cesión de Emblema Tres -->
+            <path d="M117 210 L117 160 L255 144" fill="none" stroke="#854f0b" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr3)"/>
+            <rect x="46" y="158" width="96" height="18" rx="3" fill="#faeeda"/>
+            <text class="ts" x="94" y="167" text-anchor="middle" dominant-baseline="central" fill="#854f0b">Cede crédito</text>
+
+            <!-- Akamai → capitaliza en PC Costanera -->
+            <path d="M340 144 L340 210" fill="none" stroke="#0f6e56" stroke-width="2" marker-end="url(#arr3)"/>
+            <rect x="346" y="165" width="80" height="18" rx="3" fill="#e1f5ee"/>
+            <text class="ts" x="386" y="174" text-anchor="middle" dominant-baseline="central" fill="#085041">Capitaliza</text>
+
+            <!-- Akamai ← cesión de PC Costanera -->
+            <path d="M418 210 L440 160 L425 144" fill="none" stroke="#534ab7" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr3)"/>
+            <rect x="440" y="158" width="80" height="18" rx="3" fill="#eeedfe"/>
+            <text class="ts" x="480" y="167" text-anchor="middle" dominant-baseline="central" fill="#534ab7">Cede crédito</text>
+
+            <!-- Akamai → capitaliza en La Pacífica -->
+            <path d="M425 122 L562 122 L562 210" fill="none" stroke="#0f6e56" stroke-width="2" marker-end="url(#arr3)"/>
+            <rect x="490" y="108" width="80" height="18" rx="3" fill="#e1f5ee"/>
+            <text class="ts" x="530" y="117" text-anchor="middle" dominant-baseline="central" fill="#085041">Capitaliza</text>
+
+            <!-- Nota al pie -->
+            <text class="ts" x="340" y="290" text-anchor="middle" fill="var(--ink3)">Akamai recibe la cesión de crédito y lo aporta como capital — sin caja, sin IGV</text>
+          </svg>
         </div>
       </div>
     </div>
